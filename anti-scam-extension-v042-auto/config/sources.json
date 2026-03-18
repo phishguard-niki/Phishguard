@@ -1,0 +1,168 @@
+{
+  "_comment": "Anti-Scam Guard — 33 sources: 9 phishing + 3 malware + 3 scam + 2 crypto + 1 JP + 4 TW + 2 CN + 8 global-regulatory + 1 local",
+  "sources": [
+
+    "https://raw.githubusercontent.com/openphish/public_feed/main/feed.txt",
+    "https://openphish.com/feed.txt",
+
+    {
+      "name": "PhishingDB_ACTIVE_domains",
+      "type": "text",
+      "url": "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt"
+    },
+    {
+      "name": "PhishingDB_ACTIVE_links",
+      "type": "text",
+      "url": "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-links-ACTIVE.txt"
+    },
+    {
+      "name": "PhishTank_online_valid",
+      "type": "csv",
+      "url": "https://data.phishtank.com/data/online-valid.csv"
+    },
+    {
+      "name": "Phishing_Army_extended",
+      "type": "text",
+      "url": "https://phishing.army/download/phishing_army_blocklist_extended.txt"
+    },
+    {
+      "name": "CERT_PL_domains",
+      "type": "text",
+      "url": "https://hole.cert.pl/domains/v2/domains.txt"
+    },
+    {
+      "name": "malware_filter_phishing",
+      "type": "text",
+      "url": "https://malware-filter.gitlab.io/malware-filter/phishing-filter-domains.txt"
+    },
+    {
+      "name": "BlocklistProject_phishing",
+      "type": "text",
+      "url": "https://blocklistproject.github.io/Lists/alt-version/phishing-nl.txt"
+    },
+
+    "https://urlhaus.abuse.ch/downloads/csv/",
+    "https://urlhaus.abuse.ch/downloads/text/",
+
+    {
+      "name": "Feodo_Tracker",
+      "type": "text",
+      "url": "https://feodotracker.abuse.ch/blocklist/?download=domainblocklist"
+    },
+    {
+      "name": "durablenapkin_scam",
+      "type": "text",
+      "url": "https://raw.githubusercontent.com/durablenapkin/scamblocklist/master/hosts.txt"
+    },
+
+    {
+      "name": "Jarelllama_Scam_Blocklist",
+      "type": "text",
+      "url": "https://raw.githubusercontent.com/jarelllama/Scam-Blocklist/main/lists/wildcard_domains/scams.txt"
+    },
+    {
+      "name": "Disconnect_malvertising",
+      "type": "text",
+      "url": "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
+    },
+    {
+      "name": "AA419_fakebanks",
+      "type": "html",
+      "url": "https://db.aa419.org/fakebankslist.php?format=csv"
+    },
+
+    {
+      "name": "ScamSniffer_domains",
+      "type": "json",
+      "url": "https://raw.githubusercontent.com/scamsniffer/scam-database/main/blacklist/domains.json"
+    },
+    {
+      "name": "NoCoin_hosts",
+      "type": "text",
+      "url": "https://raw.githubusercontent.com/hoshsadiq/adblock-nocoin-list/master/hosts.txt"
+    },
+
+    {
+      "name": "JPCERT_phishurl_2025",
+      "type": "text",
+      "url": "https://raw.githubusercontent.com/JPCERTCC/phishurl-list/main/2025/202511.csv"
+    },
+
+    {
+      "name": "TW_165_fake_investment",
+      "type": "csv",
+      "url": "https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=3BB8E3CE-8223-43AF-B1AB-5824FA889883"
+    },
+    {
+      "name": "TW_165_dns_blocked",
+      "type": "csv",
+      "url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/29E8E643-88ED-4952-B21E-BD42A3B7108C/resource/3DF01659-5AD7-45E0-85CB-C09B0AD97093/download"
+    },
+    {
+      "name": "TW_165_article_api",
+      "type": "165_article_api",
+      "list": "https://165.npa.gov.tw/api/article/list/9?page={page}",
+      "detail": "https://165.npa.gov.tw/api/article/detail/9/{id}"
+    },
+    {
+      "name": "TW_165_article_1752",
+      "type": "html",
+      "url": "https://165.npa.gov.tw/api/article/detail/9/1752"
+    },
+
+    {
+      "name": "CN_CAC_fake_sites",
+      "type": "html",
+      "url": "https://www.cac.gov.cn/hdfw/jbzx/A093803index_1.htm"
+    },
+    {
+      "name": "CN_POLICE_fake_sites",
+      "type": "html",
+      "url": "https://news.cpd.com.cn/n3569/1224/t_1165701.html"
+    },
+
+    {
+      "name": "GLOBAL_SCAM_SCAMADVISER",
+      "type": "text",
+      "url": "file://./config/global/scamadviser-highrisk.txt"
+    },
+    {
+      "name": "GLOBAL_SCAM_FCA",
+      "type": "json",
+      "url": "file://./config/global/fca-scam.json"
+    },
+    {
+      "name": "GLOBAL_SCAM_ASIC",
+      "type": "json",
+      "url": "file://./config/global/asic-scam.json"
+    },
+    {
+      "name": "GLOBAL_SCAM_SFC",
+      "type": "json",
+      "url": "file://./config/global/sfc-scam.json"
+    },
+    {
+      "name": "GLOBAL_SCAM_CRYPTO",
+      "type": "text",
+      "url": "file://./config/global/crypto-exchange-scam.txt"
+    },
+    {
+      "name": "GLOBAL_SCAM_SPAMHAUS_DBL",
+      "type": "text",
+      "url": "file://./config/global/spamhaus-dbl.txt"
+    },
+    {
+      "name": "GLOBAL_SCAM_OTX",
+      "type": "json",
+      "url": "file://./config/global/otx-scam.json"
+    },
+
+    {
+      "name": "GLOBAL_SCAM_MERGED_OUT",
+      "type": "global_scam_merge",
+      "cache": "cache/global-scam-merged.txt"
+    },
+
+    "file://./config/local-seeds.txt"
+  ]
+}

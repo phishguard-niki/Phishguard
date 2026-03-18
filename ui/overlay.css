@@ -1,0 +1,13 @@
+:root{ --bg:#0f172a; --fg:#e5e7eb; --card:#111827; --border:#374151; --warn:#f59e0b; --accent:#38bdf8; }
+#asg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483647;display:flex;align-items:center;justify-content:center}
+#asg-overlay .asg-modal{width:min(600px,92vw);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:12px;padding:16px;font:14px/1.5 system-ui,Segoe UI,Roboto,Arial}
+#asg-overlay h3{margin:0;font-size:16px}
+#asg-overlay .asg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+#asg-overlay .asg-lang{background:transparent;border:1px solid #6b7280;color:var(--fg);border-radius:8px;padding:6px 10px;cursor:pointer}
+#asg-overlay ul{margin:8px 0 0 18px}
+#asg-overlay .asg-suggestion{margin:10px 0 0}
+#asg-overlay .asg-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+#asg-overlay #asg-back{background:var(--warn);color:#111827;border:none;border-radius:8px;padding:8px 12px;cursor:pointer}
+#asg-overlay #asg-keep{background:transparent;border:1px solid #6b7280;color:var(--fg);border-radius:8px;padding:8px 12px;cursor:pointer}
+#asg-overlay .asg-hotline{margin-top:10px;opacity:.9}
+#asg-overlay .asg-hotline a{color:var(--accent)}

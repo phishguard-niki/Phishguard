@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# Generated blocklist data (rebuild with: bash anti-scam-extension-v042-auto/run_update.sh)
+data/blocklist.json
+data/blocklist-shards/
+anti-scam-extension-v042/data/
+anti-scam-extension-v042-auto/cache/

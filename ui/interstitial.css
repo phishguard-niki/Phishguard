@@ -1,0 +1,9 @@
+:root{ --i-z:2147483647 }
+#asg-interstitial{ position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:var(--i-z); display:grid; place-items:center }
+#asg-interstitial .asg-i-card{ width:min(680px,92vw); background:#111827; color:#e5e7eb; border:1px solid #374151; border-radius:14px; padding:22px; box-shadow:0 10px 30px rgba(0,0,0,.5); font:15px/1.5 system-ui, Segoe UI, Roboto, Arial }
+#asg-interstitial h2{ margin:0 0 6px; font-size:20px }
+#asg-interstitial .asg-i-source{ opacity:.85; margin:0 0 12px }
+#asg-interstitial .asg-i-note{ margin:8px 0 0 }
+#asg-interstitial .asg-i-note a{ color:#38bdf8 }
+#asg-interstitial .asg-i-actions{ display:flex; justify-content:flex-end; margin-top:14px }
+#asg-interstitial #asg-i-continue{ background:#f59e0b; color:#111827; border:none; border-radius:8px; padding:10px 14px; cursor:pointer }

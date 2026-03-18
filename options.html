@@ -1,0 +1,48 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Anti-Scam Guard – Options</title>
+<style>
+  body{font:14px system-ui,Segoe UI,Roboto,Arial;background:#0f172a;color:#e5e7eb;margin:0;padding:20px}
+  .card{background:#111827;border:1px solid #374151;border-radius:12px;padding:16px;max-width:900px;margin:auto}
+  h1{font-size:18px;margin:0 0 12px}
+  label{display:flex;align-items:center;gap:8px;margin:10px 0}
+  select,input[type=checkbox],textarea{padding:6px;border-radius:8px;border:1px solid #374151;background:#0b1220;color:#e5e7eb}
+  textarea{width:100%;min-height:140px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>div{flex:1 1 220px}
+  .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+  button{background:#38bdf8;color:#002233;border:none;border-radius:8px;padding:8px 12px;cursor:pointer}
+  small{opacity:.85}
+  a{color:#38bdf8}
+</style>
+<div class="card">
+  <h1>Anti-Scam Guard – Options</h1>
+  <div class="row">
+    <div>
+      <label>預設語言 / Language
+        <select id="lang">
+          <option value="auto">自動 (Auto)</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="scanImages"> 啟用圖片掃描 / Scan images</label>
+      <label><input type="checkbox" id="warnShort"> 提示短網址風險 / Warn on short URLs</label>
+      <label><input type="checkbox" id="showBanner"> 顯示大貼紙（啟發式時）/ Show big banner</label>
+      <label>大警示強度 / Interstitial strength
+        <select id="interstitial">
+          <option value="A">A：貼紙可關閉</option>
+          <option value="B">B：半遮罩需確認（保留）</option>
+          <option value="C" selected>C：全畫面確認頁（預設）</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <h2>自訂黑名單（每行一個網域）</h2>
+  <textarea id="customList" placeholder="example.com\nfake-bank.tw\n..."></textarea>
+  <div class="actions">
+    <button id="save">儲存 / Save</button>
+  </div>
+  <p><small>165 Anti-Fraud Network: <a href="https://165.npa.gov.tw/" target="_blank" rel="noopener">https://165.npa.gov.tw/</a></small></p>
+</div>
+<script src="options.js"></script>
