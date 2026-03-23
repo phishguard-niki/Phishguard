@@ -208,7 +208,7 @@ def main():
     print(f'\n[4/4] Done! Added {total_added} new domains from 165 articles.')
 
     # Verify specific domains
-    for check in ['fm888.org', 'fuma888.net']:
+    for check in ['fm888.org']:
         c = check[0]
         key = c if 'a' <= c <= 'z' else 'other'
         shard_path = os.path.join(shard_dir, index.get(key, ''))
