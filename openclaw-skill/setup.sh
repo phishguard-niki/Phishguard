@@ -6,7 +6,7 @@ set -e
 
 SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
 DATA_DIR="$SKILL_DIR/data/blocklist-shards"
-GITHUB_REPO="https://raw.githubusercontent.com/USER/Phishguard/master"
+GITHUB_REPO="https://raw.githubusercontent.com/phishguard-niki/Phishguard/master"
 SHARDS_INDEX_URL="$GITHUB_REPO/data/blocklist-shards/index.json"
 
 echo "🛡️  Phishguard OpenClaw Skill Setup"
