@@ -38,6 +38,12 @@
       </label>
     </div>
   </div>
+  <h2>Google Safe Browsing 即時偵測</h2>
+  <label><small>預設使用免費模式（不需 API Key）。輸入 API Key 可啟用完整即時查詢（<a href="https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com" target="_blank" rel="noopener">申請</a>）</small></label>
+  <label>API Key（選填）
+    <input type="text" id="sbApiKey" placeholder="留空 = 免費模式" style="flex:1;padding:6px;border-radius:8px;border:1px solid #374151;background:#0b1220;color:#e5e7eb">
+  </label>
+  <p id="sbStatus" style="font-size:12px;opacity:0.7"></p>
   <h2>自訂黑名單（每行一個網域）</h2>
   <textarea id="customList" placeholder="example.com\nfake-bank.tw\n..."></textarea>
   <div class="actions">

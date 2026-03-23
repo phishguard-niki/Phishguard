@@ -75,13 +75,28 @@ try {
   console.warn('[WARN] Could not load blocklist.json, blocklist tests will be skipped');
 }
 
+// --- Blocklist whitelist: legit domains that may appear in phishing feeds ---
+const _blocklistWhitelist = new Set([
+  'crypto.com','coinbase.com','binance.com','kraken.com',
+  'blockchain.com','ledger.com','trezor.io','trust.com',
+  'google.com','facebook.com','youtube.com','instagram.com',
+  'twitter.com','x.com','apple.com','microsoft.com',
+  'amazon.com','github.com','linkedin.com','netflix.com',
+  'yahoo.com','bing.com','wikipedia.org','line.me',
+  'shopee.tw','pchome.com.tw','paypal.com'
+]);
+
 function checkUrl(urlStr){
   try {
     const u = new URL(urlStr);
     const host = normalizeHost(u.host);
     const b = baseDomain(host);
+    // Whitelist check — skip blocklist for known-safe domains
+    if(_blocklistWhitelist.has(host) || _blocklistWhitelist.has(b)){
+      // fall through to heuristic checks only
+    }
     // Blocklist check
-    if(blocklistSet.has(host) || blocklistSet.has(b)){
+    else if(blocklistSet.has(host) || blocklistSet.has(b)){
       return { level:'warn', reasons:['BLACKLIST'] };
     }
     let reasons = [];

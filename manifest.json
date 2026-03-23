@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Anti-Scam Guard (MVP)",
-  "version": "0.4.2",
+  "version": "0.4.4",
   "description": "混合模式：啟發式 + 黑名單（165 & 自訂）。支援全畫面警示（強度C）、大貼紙(Banner)、圖片掃描、語言切換。",
   "icons": {
     "128": "assets/icon128.png"
@@ -15,8 +15,8 @@
     "<all_urls>"
   ],
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "scripts": ["background.js"],
+    "persistent": false
   },
   "content_scripts": [
     {

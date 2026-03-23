@@ -1,5 +1,5 @@
 {
-  "_comment": "Anti-Scam Guard — 33 sources: 9 phishing + 3 malware + 3 scam + 2 crypto + 1 JP + 4 TW + 2 CN + 8 global-regulatory + 1 local",
+  "_comment": "Anti-Scam Guard — 38 sources: 9 phishing + 3 malware + 3 scam + 2 crypto + 1 JP + 5 TW + 2 CN + 5 global-regulatory + 6 new + 1 local (removed empty ScamAdviser/OTX placeholders)",
   "sources": [
 
     "https://raw.githubusercontent.com/openphish/public_feed/main/feed.txt",
@@ -83,9 +83,10 @@
     },
 
     {
-      "name": "JPCERT_phishurl_2025",
-      "type": "text",
-      "url": "https://raw.githubusercontent.com/JPCERTCC/phishurl-list/main/2025/202511.csv"
+      "name": "JPCERT_phishurl",
+      "type": "jpcert_multi",
+      "base_url": "https://raw.githubusercontent.com/JPCERTCC/phishurl-list/main/{year}/{year}{month}.csv",
+      "months_back": 3
     },
 
     {
@@ -99,62 +100,86 @@
       "url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/29E8E643-88ED-4952-B21E-BD42A3B7108C/resource/3DF01659-5AD7-45E0-85CB-C09B0AD97093/download"
     },
     {
+      "name": "TW_165_fraud_websites",
+      "type": "csv",
+      "url": "https://opdadm.moi.gov.tw/api/v1/no-auth/resource/api/dataset/033197D4-70F4-45EB-9FB8-6D83532B999A/resource/FEAA1683-4483-4FDC-B861-BC530789E2AB/download"
+    },
+    {
+      "name": "TW_MODA_dns_suspension",
+      "type": "json",
+      "url": "https://www-api.moda.gov.tw/OpenData/Files/16352"
+    },
+    {
       "name": "TW_165_article_api",
       "type": "165_article_api",
       "list": "https://165.npa.gov.tw/api/article/list/9?page={page}",
       "detail": "https://165.npa.gov.tw/api/article/detail/9/{id}"
     },
     {
-      "name": "TW_165_article_1752",
-      "type": "html",
-      "url": "https://165.npa.gov.tw/api/article/detail/9/1752"
+      "name": "USOM_TR_CERT",
+      "type": "text",
+      "url": "https://www.usom.gov.tr/url-list.txt"
+    },
+    {
+      "name": "ThreatFox_domains",
+      "type": "csv",
+      "url": "https://threatfox.abuse.ch/downloads/hostfile/"
+    },
+    {
+      "name": "Hagezi_TIF",
+      "type": "text",
+      "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/domains/tif.txt"
+    },
+    {
+      "name": "PhishDestroy_destroylist",
+      "type": "text",
+      "url": "https://raw.githubusercontent.com/phishdestroy/destroylist/main/list.txt"
+    },
+    {
+      "name": "CyberHost_malware",
+      "type": "text",
+      "url": "https://lists.cyberhost.uk/malware.txt"
     },
 
     {
       "name": "CN_CAC_fake_sites",
       "type": "html",
-      "url": "https://www.cac.gov.cn/hdfw/jbzx/A093803index_1.htm"
+      "url": "https://www.cac.gov.cn/hdfw/jbzx/A093803index_1.htm",
+      "optional": true,
+      "_note": "Often returns 403 from outside China"
     },
     {
       "name": "CN_POLICE_fake_sites",
       "type": "html",
-      "url": "https://news.cpd.com.cn/n3569/1224/t_1165701.html"
+      "url": "https://news.cpd.com.cn/n3569/1224/t_1165701.html",
+      "optional": true,
+      "_note": "Often returns 403 from outside China"
     },
 
     {
-      "name": "GLOBAL_SCAM_SCAMADVISER",
-      "type": "text",
-      "url": "file://./config/global/scamadviser-highrisk.txt"
-    },
-    {
       "name": "GLOBAL_SCAM_FCA",
-      "type": "json",
-      "url": "file://./config/global/fca-scam.json"
+      "type": "html",
+      "url": "https://www.fca.org.uk/scamsmart/warning-list",
+      "optional": true,
+      "_note": "FCA may block automated access (403)"
     },
     {
       "name": "GLOBAL_SCAM_ASIC",
-      "type": "json",
-      "url": "file://./config/global/asic-scam.json"
+      "type": "html",
+      "url": "https://moneysmart.gov.au/check-and-report-scams/investor-alert-list",
+      "_note": "ASIC investor alert - HTML parsing may include false positives, whitelist handles it"
     },
     {
       "name": "GLOBAL_SCAM_SFC",
-      "type": "json",
-      "url": "file://./config/global/sfc-scam.json"
+      "type": "html",
+      "url": "https://www.sfc.hk/TC/Alert_List",
+      "_note": "SFC HK alert list - HTML parsing may include false positives, whitelist handles it"
     },
     {
       "name": "GLOBAL_SCAM_CRYPTO",
       "type": "text",
-      "url": "file://./config/global/crypto-exchange-scam.txt"
-    },
-    {
-      "name": "GLOBAL_SCAM_SPAMHAUS_DBL",
-      "type": "text",
-      "url": "file://./config/global/spamhaus-dbl.txt"
-    },
-    {
-      "name": "GLOBAL_SCAM_OTX",
-      "type": "json",
-      "url": "file://./config/global/otx-scam.json"
+      "url": "https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/main/src/config.json",
+      "_note": "MetaMask crypto phishing domains (JSON with fuzzylist/blacklist)"
     },
 
     {
@@ -163,6 +188,6 @@
       "cache": "cache/global-scam-merged.txt"
     },
 
-    "file://./config/local-seeds.txt"
+    "file://./local-seeds.txt"
   ]
 }
