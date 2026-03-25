@@ -6,8 +6,8 @@ set -e
 
 SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
 DATA_DIR="$SKILL_DIR/data/blocklist-shards"
-GITHUB_REPO="https://raw.githubusercontent.com/phishguard-niki/Phishguard/master"
-SHARDS_INDEX_URL="$GITHUB_REPO/data/blocklist-shards/index.json"
+GITHUB_REPO="https://raw.githubusercontent.com/phishguard-niki/blocklist-data/main"
+SHARDS_INDEX_URL="$GITHUB_REPO/index.json"
 
 echo "🛡️  Phishguard OpenClaw Skill Setup"
 echo "===================================="
@@ -42,8 +42,8 @@ download_shards() {
 import json
 with open('$DATA_DIR/index.json') as f:
     idx = json.load(f)
-for v in set(idx.values()):
-    print(v)
+for v in idx.get('shards', {}).values():
+    print(v['file'])
 ")
 
     TOTAL=0
@@ -55,7 +55,7 @@ for v in set(idx.values()):
     for shard in $SHARD_FILES; do
         DOWNLOADED=$((DOWNLOADED + 1))
         echo "  [$DOWNLOADED/$TOTAL] Downloading $shard..."
-        curl -fsSL "$GITHUB_REPO/data/blocklist-shards/$shard" -o "$DATA_DIR/$shard"
+        curl -fsSL "$GITHUB_REPO/$shard" -o "$DATA_DIR/$shard"
     done
 
     echo "✅ Downloaded $TOTAL shard files"

@@ -8,3 +8,5 @@ data/blocklist.json
 data/blocklist-shards/
 anti-scam-extension-v042/data/
 anti-scam-extension-v042-auto/cache/
+openclaw-skill/data/blocklist-shards/
+.claude/
