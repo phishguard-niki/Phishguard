@@ -25,7 +25,7 @@ WHITELIST = {
     "npa.gov.tw", "moda.gov.tw", "ey.gov.tw",
 }
 
-# Homograph attack detection
+# Homograph attack detection - Cyrillic confusables
 CONFUSABLE_CHARS = {
     '\u0430': 'a', '\u0435': 'e', '\u043e': 'o', '\u0440': 'p',
     '\u0441': 'c', '\u0443': 'y', '\u0445': 'x', '\u0456': 'i',
@@ -33,6 +33,10 @@ CONFUSABLE_CHARS = {
     '\u0261': 'g', '\u014b': 'n', '\u0196': 'I',
     '\u0d20': 'o', '\u0d21': 'o',
 }
+
+# Digit-letter homograph map (e.g., paypa1.com, g00gle.com)
+DIGIT_HOMOGRAPH_MAP = {'0': 'o', '1': 'l', '3': 'e', '@': 'a', '$': 's'}
+FAMOUS_BRANDS = ['paypal', 'apple', 'google', 'microsoft', 'binance', 'metamask', 'bankofamerica']
 
 SUSPICIOUS_KEYWORDS = [
     "login", "signin", "verify", "secure", "account", "update", "confirm",
@@ -120,13 +124,20 @@ def check_heuristics(domain: str, url: str) -> list:
     """Check URL for suspicious heuristic patterns."""
     reasons = []
 
-    # 1. Homograph attack
+    # 1. Cyrillic homograph attack
     for char in domain:
         if char in CONFUSABLE_CHARS:
             reasons.append(f"同形字攻擊：包含偽造字元 '{char}' (偽裝成 '{CONFUSABLE_CHARS[char]}')")
             break
 
-    # 2. Non-ASCII characters in domain
+    # 2. Digit-letter homograph attack (e.g., paypa1.com, g00gle.com)
+    normalized = ''.join(DIGIT_HOMOGRAPH_MAP.get(c, c) for c in domain.lower())
+    for brand in FAMOUS_BRANDS:
+        if brand in normalized and brand not in domain.lower():
+            reasons.append(f"數字偽裝攻擊：疑似仿冒 {brand}（使用數字替代字母）")
+            break
+
+    # 3. Non-ASCII characters
     try:
         domain.encode("ascii")
     except UnicodeEncodeError:

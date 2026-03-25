@@ -11,6 +11,8 @@ const riskyIfSuspiciousDomain = [
 ];
 
 const homographMap = {'0':'o','1':'l','3':'e','@':'a','$':'s'};
+// Cyrillic confusable characters (used in IDN homograph attacks)
+const cyrillicMap = {'\u0430':'a','\u0435':'e','\u043e':'o','\u0440':'p','\u0441':'c','\u0443':'y','\u0445':'x','\u0456':'i'};
 const famous = ['paypal','apple','google','microsoft','binance','metamask','bankofamerica'];
 
 function normalizeHost(h){ return (h||'').replace(/^www\./,'').toLowerCase(); }
@@ -45,6 +47,9 @@ function baseDomain(host){
 }
 
 function looksLikeHomograph(h){ const b=(h||'').toLowerCase(); const r=b.split('').map(c=>homographMap[c]||c).join(''); return famous.some(x=>r.includes(x)&&!b.includes(x)); }
+function hasCyrillicConfusable(h){ return (h||'').split('').some(c => c in cyrillicMap); }
+function isIPAddress(h){ return /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(h||''); }
+function isTooLongDomain(h){ return (h||'').length > 50; }
 function tooDeepSubdomain(h){ return (h||'').split('.').length>=5; }
 function isSuspiciousDomain(h){ return /(^|\.)(top|xyz|buzz|click|club|icu|loan|work|gq|ml|tk|cf|ga|cn\.com|pages\.dev|workers\.dev|duckdns\.org|000webhostapp\.com|weebly\.com|blogspot\.com)$/i.test(h||''); }
 const searchEngines = new Set(['google.com','google.com.tw','google.co.jp','google.com.hk','google.co.uk','google.com.au','bing.com','yahoo.com','tw.yahoo.com','duckduckgo.com','baidu.com','search.yahoo.com','ecosia.org','yandex.com','naver.com']);
@@ -255,7 +260,10 @@ async function checkUrlRiskWithLists(urlStr){
     // Run heuristics + Safe Browsing API in parallel
     let level='ok', reasonKeys=[];
     if(looksLikeHomograph(host)){ reasonKeys.push('HOMO'); level='warn'; }
+    if(hasCyrillicConfusable(host)){ reasonKeys.push('CYRILLIC'); level='warn'; }
     if(tooDeepSubdomain(host)){ reasonKeys.push('DEEP_SUB'); level='warn'; }
+    if(isIPAddress(host)){ reasonKeys.push('IP_ADDR'); level='warn'; }
+    if(isTooLongDomain(host)){ reasonKeys.push('LONG_DOMAIN'); level='warn'; }
     if(hasRiskyPath(u, host)){ reasonKeys.push('RISKY_PATH'); level='warn'; }
     if(cfg.asg_warnShortUrl && isShortener(host)){ reasonKeys.push('SHORT_URL'); level='warn'; }
 
