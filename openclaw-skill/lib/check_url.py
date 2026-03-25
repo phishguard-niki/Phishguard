@@ -144,18 +144,18 @@ def check_heuristics(domain: str, url: str) -> list:
         if not any(c in CONFUSABLE_CHARS for c in domain):
             reasons.append("網域包含非 ASCII 字元")
 
-    # 3. Deep subdomain (4+ levels)
+    # 4. Deep subdomain (4+ levels)
     parts = domain.split(".")
     if len(parts) >= 5:
         reasons.append(f"深層子網域（{len(parts)} 層），常見於釣魚網站")
 
-    # 4. Suspicious keywords in domain
+    # 5. Suspicious keywords in domain
     for kw in SUSPICIOUS_KEYWORDS:
         if kw in domain:
             reasons.append(f"網域包含可疑關鍵字：'{kw}'")
             break
 
-    # 5. Brand impersonation
+    # 6. Brand impersonation
     brands = {"paypal", "apple", "google", "microsoft", "amazon", "netflix",
               "facebook", "instagram", "line", "whatsapp", "telegram"}
     root = get_root_domain(domain)
@@ -164,17 +164,17 @@ def check_heuristics(domain: str, url: str) -> list:
             reasons.append(f"疑似仿冒 {brand.capitalize()} 品牌")
             break
 
-    # 6. Risky TLD
+    # 7. Risky TLD
     for tld in RISKY_TLDS:
         if domain.endswith(tld):
             reasons.append(f"使用高風險網域後綴：{tld}")
             break
 
-    # 7. IP address as domain
+    # 8. IP address as domain
     if re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", domain):
         reasons.append("使用 IP 位址而非網域名稱")
 
-    # 8. Very long domain
+    # 9. Very long domain
     if len(domain) > 50:
         reasons.append(f"網域名稱異常長（{len(domain)} 字元）")
 

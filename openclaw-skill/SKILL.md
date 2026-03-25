@@ -1,6 +1,6 @@
 ---
 name: phishguard
-description: "Anti-scam URL scanner - automatically detects and warns about phishing/scam URLs in chat messages. Powered by 2.8M+ blocklisted domains from 38 sources including Taiwan 165, CERT.PL, PhishTank, and more."
+description: "Anti-scam URL scanner - automatically detects and warns about phishing/scam URLs in chat messages. Powered by 2.5M+ blocklisted domains from 38 sources including Taiwan 165, CERT.PL, PhishTank, and more."
 user-invocable: true
 metadata: {"openclaw":{"requires":{"bins":["python3"]},"emoji":"🛡️","setup":"bash {baseDir}/setup.sh"}}
 ---
@@ -17,7 +17,7 @@ If the blocklist data is missing (no files in `{baseDir}/data/blocklist-shards/`
 bash {baseDir}/setup.sh
 ```
 
-This downloads the latest blocklist (~1.6M+ domains) from GitHub.
+This downloads the latest blocklist (~2.5M+ domains) from GitHub.
 
 ## AUTOMATIC BEHAVIOR
 
@@ -65,7 +65,7 @@ The script returns JSON. Use the result to format your response.
 
 If the user asks "what can you do" or "help", explain:
 - I automatically scan URLs shared in chat for scams and phishing
-- I check against 2.8M+ known scam domains from 38 sources
+- I check against 2.5M+ known scam domains from 38 sources
 - Sources include Taiwan 165, CERT.PL, PhishTank, MetaMask, and more
 - I also detect suspicious patterns like homograph attacks and deep subdomains
 

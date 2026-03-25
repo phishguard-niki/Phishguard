@@ -1,4 +1,5 @@
 // background.js (v0.4.4)
+const APP_VERSION = '0.4.4';
 
 // --- Fix #1: risky tokens split into always-flag vs suspicious-domain-only ---
 // Always flag — these almost exclusively appear in scam contexts
@@ -187,7 +188,7 @@ async function checkGoogleSafeBrowsing(urlStr){
           headers: {'Content-Type': 'application/json'},
           signal: controller.signal,
           body: JSON.stringify({
-            client: { clientId: 'phishguard', clientVersion: '0.4.4' },
+            client: { clientId: 'phishguard', clientVersion: APP_VERSION },
             threatInfo: {
               threatTypes: ['MALWARE','SOCIAL_ENGINEERING','UNWANTED_SOFTWARE','POTENTIALLY_HARMFUL_APPLICATION'],
               platformTypes: ['ANY_PLATFORM'],
@@ -209,39 +210,9 @@ async function checkGoogleSafeBrowsing(urlStr){
       }
     }
 
-    // No API key: use free hash-based check via transparency API
-    // This checks the URL prefix/suffix hashes against Google's threat lists
-    try{
-      const encoder = new TextEncoder();
-      const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(host));
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashPrefix = hashArray.slice(0, 4).map(b => b.toString(16).padStart(2,'0')).join('');
-
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), SB_TIMEOUT);
-      const resp = await fetch(`https://safebrowsing.googleapis.com/v4/threatListUpdates:fetch`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        signal: controller.signal,
-        body: JSON.stringify({
-          client: { clientId: 'phishguard', clientVersion: '0.4.4' },
-          listUpdateRequests: [{
-            threatType: 'SOCIAL_ENGINEERING',
-            platformType: 'ANY_PLATFORM',
-            threatEntryType: 'URL',
-            constraints: { maxUpdateEntries: 0, maxDatabaseEntries: 0 }
-          }]
-        })
-      });
-      clearTimeout(timer);
-      await _sbIncrementCount();
-      // Hash-based API is complex; for now just cache as safe if no error
-      _sbCache.set(host, { timestamp: Date.now(), threat: null });
-      return null;
-    }catch(e){
-      console.debug('[SB] Hash API error:', e?.message);
-      return null;
-    }
+    // No API key: Safe Browsing requires an API key for threat lookups.
+    // Without one, we rely on blocklist + heuristic detection only.
+    return null;
   }catch{
     return null;
   }
