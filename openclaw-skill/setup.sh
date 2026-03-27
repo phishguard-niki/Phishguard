@@ -2,7 +2,7 @@
 # Phishguard OpenClaw Skill - Setup Script
 # Downloads blocklist data from GitHub and verifies installation
 
-set -e
+set -euo pipefail
 
 SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
 DATA_DIR="$SKILL_DIR/data/blocklist-shards"
@@ -42,8 +42,11 @@ download_shards() {
 import json
 with open('$DATA_DIR/index.json') as f:
     idx = json.load(f)
-for v in idx.get('shards', {}).values():
-    print(v['file'])
+for v in idx.values():
+    if isinstance(v, str) and v.endswith('.json'):
+        print(v)
+    elif isinstance(v, dict) and 'file' in v:
+        print(v['file'])
 ")
 
     TOTAL=0
@@ -55,7 +58,17 @@ for v in idx.get('shards', {}).values():
     for shard in $SHARD_FILES; do
         DOWNLOADED=$((DOWNLOADED + 1))
         echo "  [$DOWNLOADED/$TOTAL] Downloading $shard..."
-        curl -fsSL "$GITHUB_REPO/$shard" -o "$DATA_DIR/$shard"
+        for attempt in 1 2 3; do
+            if curl -fsSL --retry 2 --retry-delay 3 "$GITHUB_REPO/$shard" -o "$DATA_DIR/$shard" 2>/dev/null; then
+                break
+            fi
+            if [ "$attempt" -lt 3 ]; then
+                echo "    ⏳ Retry $attempt..."
+                sleep 3
+            else
+                echo "    ⚠️  Failed to download $shard (skipped)"
+            fi
+        done
     done
 
     echo "✅ Downloaded $TOTAL shard files"
