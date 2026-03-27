@@ -116,7 +116,15 @@ if [ -d "$BLOCKLIST_REPO/.git" ]; then
         echo "  [SKIP] No changes to push"
     else
         git commit -m "Auto-update blocklist $(date +%Y-%m-%d)" --no-gpg-sign
-        git push origin main && echo "  [OK] Pushed to GitHub" || echo "  [WARN] Push failed (check auth)"
+        # Read token from macOS Keychain for push
+        GH_TOKEN=$(security find-internet-password -a phishguard-niki -s github.com -w 2>/dev/null)
+        if [ -n "$GH_TOKEN" ]; then
+            git remote set-url origin "https://phishguard-niki:${GH_TOKEN}@github.com/phishguard-niki/blocklist-data.git"
+            git push origin main && echo "  [OK] Pushed to GitHub" || echo "  [WARN] Push failed"
+            git remote set-url origin "https://github.com/phishguard-niki/blocklist-data.git"
+        else
+            echo "  [WARN] No GitHub token in Keychain, skipping push"
+        fi
     fi
     cd "$SCRIPT_DIR"
 else
