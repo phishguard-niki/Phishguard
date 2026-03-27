@@ -93,7 +93,7 @@ def is_whitelisted(domain: str) -> bool:
     return False
 
 
-def _fetch_shard_from_github(shard_file: str) -> dict | None:
+def _fetch_shard_from_github(shard_file: str):
     """Try to fetch a shard from GitHub, with local caching."""
     os.makedirs(CACHE_DIR, exist_ok=True)
     cache_path = os.path.join(CACHE_DIR, shard_file)
