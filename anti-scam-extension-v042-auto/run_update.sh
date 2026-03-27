@@ -107,9 +107,9 @@ if [ -d "$OPENCLAW_SHARDS" ] && [ "$DOMAIN_COUNT" -gt 1000 ]; then
     echo "  [OK] Synced shards to openclaw-skill"
 fi
 
-BLOCKLIST_REPO="/tmp/blocklist-data"
+BLOCKLIST_REPO="$SCRIPT_DIR/../blocklist-data"
 if [ -d "$BLOCKLIST_REPO/.git" ]; then
-    cp -r "$SHARDS_DIR/"* "$BLOCKLIST_REPO/blocklist-shards/" 2>/dev/null
+    cp -r "$SHARDS_DIR/"* "$BLOCKLIST_REPO/" 2>/dev/null
     cd "$BLOCKLIST_REPO"
     git add -A
     if git diff --cached --quiet; then
