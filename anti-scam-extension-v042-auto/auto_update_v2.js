@@ -229,6 +229,14 @@ async function main(){ const opts=parseArgs(); setSourcesDir(path.dirname(path.r
     return false;
   }
   const mergedHosts = uniqueSorted(collected.flatMap(c=>c.hosts).filter(h => h && !isWhitelisted(h)));
+
+  // Safety check: refuse to overwrite existing blocklist with empty data
+  const MIN_DOMAINS = 1000;
+  if(mergedHosts.length < MIN_DOMAINS){
+    console.error(`\n[ABORT] Only ${mergedHosts.length} domains collected (minimum: ${MIN_DOMAINS}). Keeping existing blocklist to prevent data loss.`);
+    process.exit(1);
+  }
+
   let keywords=['reset-password','verify-account','bank-login','otp','one-time','2fa','登入驗證','重設密碼','身分驗證'];
   if(opts.keywords && fs.existsSync(opts.keywords)){ const add=fs.readFileSync(opts.keywords,'utf8').split(/\r?\n/).map(s=>s.trim()).filter(Boolean); keywords=uniqueSorted(keywords.concat(add)); }
   const outObj={ version:new Date().toISOString().slice(0,10), updated_at:new Date().toISOString(), expires:new Date(Date.now()+1000*60*60*24*30).toISOString().slice(0,10), sources:srcs, phishing_domains: mergedHosts, wildcards:[], regex:[], keywords };

@@ -5,12 +5,20 @@ import json
 import os
 import re
 import sys
+import time
 import unicodedata
 from urllib.parse import urlparse
+from urllib.request import urlopen, Request
+from urllib.error import URLError
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SKILL_DIR = os.path.dirname(SCRIPT_DIR)
 SHARDS_DIR = os.path.join(SKILL_DIR, "data", "blocklist-shards")
+
+# GitHub raw URL for latest blocklist shards
+GITHUB_SHARDS_BASE = "https://raw.githubusercontent.com/phishguard-niki/blocklist-data/main/blocklist-shards"
+CACHE_DIR = os.path.join(SKILL_DIR, "data", ".cache")
+CACHE_MAX_AGE = 3600  # 1 hour
 
 # Known safe domains (whitelist)
 WHITELIST = {
@@ -85,37 +93,76 @@ def is_whitelisted(domain: str) -> bool:
     return False
 
 
-def check_blocklist(domain: str):
-    """Check domain against blocklist shards."""
-    if not os.path.isdir(SHARDS_DIR):
+def _fetch_shard_from_github(shard_file: str) -> dict | None:
+    """Try to fetch a shard from GitHub, with local caching."""
+    os.makedirs(CACHE_DIR, exist_ok=True)
+    cache_path = os.path.join(CACHE_DIR, shard_file)
+
+    # Use cache if fresh enough
+    if os.path.isfile(cache_path):
+        age = time.time() - os.path.getmtime(cache_path)
+        if age < CACHE_MAX_AGE:
+            try:
+                with open(cache_path, "r") as f:
+                    return json.load(f)
+            except Exception:
+                pass
+
+    # Fetch from GitHub
+    url = f"{GITHUB_SHARDS_BASE}/{shard_file}"
+    try:
+        req = Request(url, headers={"User-Agent": "PhishGuard/0.4.4"})
+        with urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            # Cache it
+            with open(cache_path, "w") as f:
+                json.dump(data, f)
+            return data
+    except Exception:
+        # Fall back to stale cache if available
+        if os.path.isfile(cache_path):
+            try:
+                with open(cache_path, "r") as f:
+                    return json.load(f)
+            except Exception:
+                pass
         return None
 
+
+def check_blocklist(domain: str):
+    """Check domain against blocklist shards (GitHub first, local fallback)."""
     first_char = domain[0].lower() if domain else ""
     if first_char.isalpha():
         shard_file = f"shard-{first_char}.json"
     else:
         shard_file = "shard-other.json"
 
-    shard_path = os.path.join(SHARDS_DIR, shard_file)
-    if not os.path.isfile(shard_path):
+    # Try GitHub (with cache) first
+    data = _fetch_shard_from_github(shard_file)
+
+    # Fallback to local bundled shards
+    if data is None and os.path.isdir(SHARDS_DIR):
+        shard_path = os.path.join(SHARDS_DIR, shard_file)
+        if os.path.isfile(shard_path):
+            try:
+                with open(shard_path, "r") as f:
+                    data = json.load(f)
+            except Exception:
+                pass
+
+    if data is None:
         return None
 
-    try:
-        with open(shard_path, "r") as f:
-            data = json.load(f)
-        domains = data.get("domains", [])
+    domains = data.get("domains", [])
 
-        # Check exact match
-        if domain in domains:
-            return {"matched": True, "source": "黑名單", "domain": domain}
+    # Check exact match
+    if domain in domains:
+        return {"matched": True, "source": "黑名單", "domain": domain}
 
-        # Check root domain
-        root = get_root_domain(domain)
-        if root != domain and root in domains:
-            return {"matched": True, "source": "黑名單", "domain": root}
-
-    except Exception:
-        pass
+    # Check root domain
+    root = get_root_domain(domain)
+    if root != domain and root in domains:
+        return {"matched": True, "source": "黑名單", "domain": root}
 
     return None
 

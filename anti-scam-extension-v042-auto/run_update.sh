@@ -97,5 +97,32 @@ else
 fi
 
 echo ""
+
+# Step 5: Sync to openclaw-skill and push to GitHub
+echo "[5/5] Syncing to openclaw-skill and pushing to GitHub..."
+
+OPENCLAW_SHARDS="../openclaw-skill/data/blocklist-shards"
+if [ -d "$OPENCLAW_SHARDS" ] && [ "$DOMAIN_COUNT" -gt 1000 ]; then
+    cp -r "$SHARDS_DIR/"* "$OPENCLAW_SHARDS/"
+    echo "  [OK] Synced shards to openclaw-skill"
+fi
+
+BLOCKLIST_REPO="/tmp/blocklist-data"
+if [ -d "$BLOCKLIST_REPO/.git" ]; then
+    cp -r "$SHARDS_DIR/"* "$BLOCKLIST_REPO/blocklist-shards/" 2>/dev/null
+    cd "$BLOCKLIST_REPO"
+    git add -A
+    if git diff --cached --quiet; then
+        echo "  [SKIP] No changes to push"
+    else
+        git commit -m "Auto-update blocklist $(date +%Y-%m-%d)" --no-gpg-sign
+        git push origin main && echo "  [OK] Pushed to GitHub" || echo "  [WARN] Push failed (check auth)"
+    fi
+    cd "$SCRIPT_DIR"
+else
+    echo "  [SKIP] blocklist-data repo not found at $BLOCKLIST_REPO"
+fi
+
+echo ""
 echo "=== Pipeline complete ==="
 echo "Output: $OUT_FILE ($DOMAIN_COUNT domains)"
