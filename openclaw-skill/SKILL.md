@@ -1,7 +1,8 @@
 ---
 name: phishguard
-description: "Anti-scam URL scanner / 防詐騙網址掃描器 - Detects phishing/scam URLs with 2.5M+ blocklisted domains from 38 sources (Taiwan 165, CERT.PL, PhishTank). 自動偵測詐騙網址，涵蓋 250 萬+ 網域、38 個來源。"
+description: "Anti-scam URL scanner — instantly checks URLs against 2.5M+ phishing/scam domains from 38 global sources. 防詐騙網址掃描器，即時比對 250 萬+ 詐騙網域，涵蓋台灣 165、PhishTank、CERT.PL 等 38 個來源。"
 user-invocable: true
+tags: ["security", "anti-scam", "phishing", "url-scanner", "taiwan", "165", "fraud", "scam-detection", "cybersecurity", "line-bot"]
 metadata: {"openclaw":{"requires":{"bins":["python3"]},"emoji":"🛡️","icon":"icon.png","setup":"bash {baseDir}/setup.sh"}}
 ---
 
