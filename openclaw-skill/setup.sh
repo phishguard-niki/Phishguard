@@ -1,6 +1,6 @@
 #!/bin/bash
 # Phishguard OpenClaw Skill - Setup Script
-# Downloads blocklist data from GitHub and verifies installation
+# Verifies dependencies and optionally downloads blocklist data
 
 set -euo pipefail
 
@@ -28,10 +28,39 @@ if ! command -v curl &>/dev/null; then
 fi
 echo "✅ curl found"
 
-# Download or update blocklist data
+# Quick test (uses on-demand GitHub download, no local data needed)
 echo ""
-download_shards() {
-    echo "📥 Downloading blocklist shards from GitHub..."
+echo "Running quick test..."
+RESULT=$(python3 "$SKILL_DIR/lib/check_url.py" "fm888.org" 2>&1)
+if echo "$RESULT" | grep -q "critical"; then
+    echo "✅ Test passed: fm888.org correctly detected as scam"
+else
+    echo "❌ Test failed. Result: $RESULT"
+    exit 1
+fi
+
+RESULT=$(python3 "$SKILL_DIR/lib/check_url.py" "google.com" 2>&1)
+if echo "$RESULT" | grep -q '"risk_level": "low"'; then
+    echo "✅ Test passed: google.com correctly identified as safe"
+else
+    echo "❌ Test failed. Result: $RESULT"
+    exit 1
+fi
+
+echo ""
+echo "===================================="
+echo "✅ Phishguard ready!"
+echo ""
+echo "Blocklist data is downloaded on-demand from GitHub (cached 1 hour)."
+echo "No need to pre-download — just start using it!"
+echo ""
+echo "Optional: To pre-download all blocklist data for faster offline use, run:"
+echo "  bash $SKILL_DIR/setup.sh --download-all"
+echo ""
+
+# Optional: download all shards if --download-all flag is passed
+if [[ "${1:-}" == "--download-all" ]]; then
+    echo "📥 Downloading all blocklist shards from GitHub..."
     mkdir -p "$DATA_DIR"
 
     # Download index first
@@ -71,10 +100,6 @@ for v in idx.values():
         done
     done
 
-    echo "✅ Downloaded $TOTAL shard files"
-}
-
-if [ -d "$DATA_DIR" ] && [ "$(ls -A "$DATA_DIR" 2>/dev/null)" ]; then
     DOMAIN_COUNT=$(python3 -c "
 import json, glob
 total = 0
@@ -85,55 +110,5 @@ for f in glob.glob('$DATA_DIR/shard-*.json'):
     except: pass
 print(total)
 ")
-    echo "✅ Blocklist data found: $DOMAIN_COUNT domains"
-    echo ""
-    read -p "🔄 Update to latest blocklist? (y/N) " -n 1 -r
-    echo ""
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        download_shards
-    fi
-else
-    download_shards
+    echo "✅ Downloaded $TOTAL shard files ($DOMAIN_COUNT domains)"
 fi
-
-# Count domains
-DOMAIN_COUNT=$(python3 -c "
-import json, glob
-total = 0
-for f in glob.glob('$DATA_DIR/shard-*.json'):
-    try:
-        d = json.load(open(f))
-        total += len(d.get('domains', []))
-    except: pass
-print(total)
-")
-echo ""
-echo "📊 Total domains in blocklist: $DOMAIN_COUNT"
-
-# Test
-echo ""
-echo "Running quick test..."
-RESULT=$(python3 "$SKILL_DIR/lib/check_url.py" "fm888.org" 2>&1)
-if echo "$RESULT" | grep -q "critical"; then
-    echo "✅ Test passed: fm888.org correctly detected as scam"
-else
-    echo "❌ Test failed. Result: $RESULT"
-    exit 1
-fi
-
-RESULT=$(python3 "$SKILL_DIR/lib/check_url.py" "google.com" 2>&1)
-if echo "$RESULT" | grep -q '"risk_level": "low"'; then
-    echo "✅ Test passed: google.com correctly identified as safe"
-else
-    echo "❌ Test failed. Result: $RESULT"
-    exit 1
-fi
-
-echo ""
-echo "===================================="
-echo "✅ Phishguard setup complete!"
-echo "   Blocklist: $DOMAIN_COUNT domains"
-echo ""
-echo "To update blocklist later, run:"
-echo "  bash $SKILL_DIR/setup.sh"
-echo ""
