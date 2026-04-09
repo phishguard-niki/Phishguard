@@ -1,6 +1,13 @@
-# PhishGuard - Anti-Scam Browser Extension v0.4.4
+# PhishGuard - Anti-Scam Browser Extension v0.4.5
+
+[![ClawHub](https://img.shields.io/badge/ClawHub-anti--scam--guard-red?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+)](https://clawhub.ai/phishguard-niki/anti-scam-guard)
+[![Install](https://img.shields.io/badge/Install-clawhub%20install%20anti--scam--guard-blue)](https://clawhub.ai/phishguard-niki/anti-scam-guard)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Blocklist Update](https://github.com/phishguard-niki/blocklist-data/actions/workflows/update-blocklist.yml/badge.svg)](https://github.com/phishguard-niki/blocklist-data/actions)
 
 Browser extension that detects and blocks phishing/scam websites using a combination of heuristic analysis and a blocklist of 2.5M+ known malicious domains from 38 sources.
+
+> **OpenClaw Skill**: `clawhub install anti-scam-guard`
 
 ## Features
 
