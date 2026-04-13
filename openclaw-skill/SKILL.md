@@ -3,7 +3,7 @@ name: phishguard
 description: "Anti-scam URL scanner — instantly checks URLs against 2.5M+ phishing/scam domains from 38 global sources. 防詐騙網址掃描器，即時比對 250 萬+ 詐騙網域，涵蓋台灣 165、PhishTank、CERT.PL 等 38 個來源。"
 user-invocable: true
 tags: ["security", "anti-scam", "phishing", "url-scanner", "taiwan", "165", "fraud", "scam-detection", "cybersecurity", "line-bot"]
-metadata: {"openclaw":{"requires":{"bins":["python3"]},"emoji":"🛡️","icon":"icon.png","setup":"bash {baseDir}/setup.sh"}}
+metadata: {"openclaw":{"requires":{"bins":["python3","curl"]},"emoji":"🛡️","icon":"icon.png","setup":"bash {baseDir}/setup.sh"}}
 ---
 
 # Phishguard - Anti-Scam URL Scanner / 防詐衛士
@@ -19,11 +19,13 @@ If the blocklist data is missing (no files in `{baseDir}/data/blocklist-shards/`
 bash {baseDir}/setup.sh
 ```
 
-This downloads the latest blocklist (~2.5M+ domains) from GitHub.
+This verifies dependencies and runs a quick test. Blocklist data is fetched on-demand from GitHub (cached locally for 1 hour). For offline use, run `bash {baseDir}/setup.sh --download-all`.
 
-## AUTOMATIC BEHAVIOR
+## BEHAVIOR
 
-**CRITICAL: Whenever you see ANY URL in a user message or group chat, you MUST automatically run the check script on it. Do NOT ask the user if they want to check - just check it immediately.**
+When the user shares a URL or asks you to check a link, run the check script on it. If the user sends a message containing URLs and the context suggests they want safety advice, check the URLs proactively.
+
+**Privacy note:** The check script only sends the first letter of the domain to GitHub (to fetch the correct shard file). Full URLs are never transmitted — all matching happens locally.
 
 ## How to check a URL
 
@@ -84,6 +86,14 @@ English:
 - Default to Traditional Chinese (繁體中文) for responses
 - If the user writes in English, respond in English
 - Match the user's language
+
+## Privacy & Security / 隱私與安全
+
+- No URLs are sent to any server — all matching is done locally
+- Only shard filenames (e.g., `shard-f.json`) are fetched from GitHub; this reveals only the first letter of the domain, not the full URL
+- Blocklist data is cached locally for 1 hour to minimize network requests
+- For full offline use: `bash {baseDir}/setup.sh --download-all`
+- Source code is fully open: https://github.com/phishguard-niki/Phishguard
 
 ## Feedback / 意見回饋
 
