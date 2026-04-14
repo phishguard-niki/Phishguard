@@ -1,6 +1,6 @@
 ---
 name: phishguard
-description: "Anti-scam URL scanner — instantly checks URLs against 2.5M+ phishing/scam domains from 38 global sources. 防詐騙網址掃描器，即時比對 250 萬+ 詐騙網域，涵蓋台灣 165、PhishTank、CERT.PL 等 38 個來源。"
+description: "Anti-scam URL scanner — instantly checks URLs against 2.5M+ phishing/scam domains from 38 global sources. Example: 'Is this safe? https://paypa1-verify.xyz' → ⚠️ Warning: digit impersonation (paypa1→paypal) + risky TLD (.xyz). 防詐騙網址掃描器，即時比對 250 萬+ 詐騙網域。"
 user-invocable: true
 tags: ["security", "anti-scam", "phishing", "url-scanner", "taiwan", "165", "fraud", "scam-detection", "cybersecurity", "line-bot"]
 metadata: {"openclaw":{"requires":{"bins":["python3","curl"]},"emoji":"🛡️","icon":"icon.png","setup":"bash {baseDir}/setup.sh"}}
