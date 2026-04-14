@@ -17,7 +17,7 @@ SHARDS_DIR = os.path.join(SKILL_DIR, "data", "blocklist-shards")
 
 # GitHub raw URL for latest blocklist shards
 GITHUB_SHARDS_BASE = "https://raw.githubusercontent.com/phishguard-niki/blocklist-data/main"
-CACHE_DIR = os.path.join(SKILL_DIR, "data", ".cache")
+CACHE_DIR = os.path.join(os.path.expanduser("~"), ".cache", "phishguard")
 CACHE_MAX_AGE = 3600  # 1 hour
 
 # Known safe domains (whitelist)
@@ -153,7 +153,7 @@ def check_blocklist(domain: str):
     if data is None:
         return None
 
-    domains = data.get("domains", [])
+    domains = set(data.get("domains", []))
 
     # Check exact match
     if domain in domains:
