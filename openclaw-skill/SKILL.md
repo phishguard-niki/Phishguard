@@ -1,6 +1,6 @@
 ---
 name: phishguard
-description: "Anti-scam URL scanner — instantly checks URLs against 2.5M+ phishing/scam domains from 38 global sources. Example: 'Is this safe? https://paypa1-verify.xyz' → ⚠️ Warning: digit impersonation (paypa1→paypal) + risky TLD (.xyz). 防詐騙網址掃描器，即時比對 250 萬+ 詐騙網域。"
+description: "Is this link safe or a scam? Paste any URL from LINE, SMS, or email to instantly detect phishing, fraud, or fake websites.\n\n🚨 Identify scam links before you click\n🔍 Detect phishing pages (fake Shopee, bank, login sites)\n⚡ Real-time check against 2.5M+ scam domains\n\nPowered by 38 global threat intelligence sources, including Taiwan 165, PhishTank, and CERT.PL.\n\n防詐騙網址檢查：貼上任何可疑連結（LINE、簡訊、Email），立即辨識是否為詐騙或釣魚網站。\n\n🚨 點擊前先檢查，避免被騙\n🔍 辨識假購物、假銀行、假登入頁\n⚡ 即時比對250萬+詐騙資料（含台灣165等38來源）\n\nExample:\n\nInput: https://shopee-tw-login-check.com\nOutput: 🚨 Scam detected\nReason: Fake Shopee login page (Phishing)\n\nInput: https://bank-secure-verification.com\nOutput: ⚠️ High risk\nReason: Suspicious domain (Reported by CERT)\n\nInput: https://google.com\nOutput: ✅ Safe\nReason: No scam or phishing records found\n\nUse cases:\n- Is this LINE link a scam?\n- Check suspicious SMS links\n- Verify email phishing URLs\n- Detect fake shopping or banking sites"
 user-invocable: true
 tags: ["security", "anti-scam", "phishing", "url-scanner", "taiwan", "165", "fraud", "scam-detection", "cybersecurity", "line-bot"]
 metadata: {"openclaw":{"requires":{"bins":["python3","curl"]},"emoji":"🛡️","icon":"icon.png","setup":"bash {baseDir}/setup.sh"}}
