@@ -31,6 +31,11 @@ WHITELIST = {
     "shopee.tw", "pchome.com.tw", "paypal.com", "bing.com",
     "gov.tw", "edu.tw", "com.tw", "org.tw",
     "npa.gov.tw", "moda.gov.tw", "ey.gov.tw",
+    # Taiwan financial / brokerage / news sites (often false-positive flagged)
+    "moneydj.com", "cnyes.com", "tw.stock.yahoo.com", "histock.tw",
+    "wantgoo.com", "moneylink.com.tw", "sinotrade.com.tw",
+    "esunsec.com.tw", "fubon.com", "yuanta.com.tw", "cathaysec.com.tw",
+    "ctbcsec.com", "kgieworld.com", "capital.com.tw",
 }
 
 # Homograph attack detection - Cyrillic confusables

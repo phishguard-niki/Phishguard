@@ -114,7 +114,12 @@ const _blocklistWhitelist = new Set([
   'twitter.com','x.com','apple.com','microsoft.com',
   'amazon.com','github.com','linkedin.com','netflix.com',
   'yahoo.com','bing.com','wikipedia.org','line.me',
-  'shopee.tw','pchome.com.tw','paypal.com'
+  'shopee.tw','pchome.com.tw','paypal.com',
+  // Taiwan financial / brokerage / news sites (often false-positive flagged)
+  'moneydj.com','cnyes.com','histock.tw','wantgoo.com',
+  'moneylink.com.tw','sinotrade.com.tw','esunsec.com.tw',
+  'fubon.com','yuanta.com.tw','cathaysec.com.tw',
+  'ctbcsec.com','kgieworld.com','capital.com.tw'
 ]);
 
 async function isInBuiltinBlocklist(host, base){
