@@ -1,13 +1,20 @@
-# PhishGuard - Anti-Scam Browser Extension v0.4.5
+# PhishGuard - Anti-Scam URL Checker v0.4.9
 
 [![ClawHub](https://img.shields.io/badge/ClawHub-anti--scam--guard-red?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+)](https://clawhub.ai/phishguard-niki/anti-scam-guard)
 [![Install](https://img.shields.io/badge/Install-clawhub%20install%20anti--scam--guard-blue)](https://clawhub.ai/phishguard-niki/anti-scam-guard)
+[![LINE Bot](https://img.shields.io/badge/LINE-@163hfjhz-00C300?logo=line&logoColor=white)](https://line.me/R/ti/p/@163hfjhz)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Blocklist Update](https://github.com/phishguard-niki/blocklist-data/actions/workflows/update-blocklist.yml/badge.svg)](https://github.com/phishguard-niki/blocklist-data/actions)
 
-Browser extension that detects and blocks phishing/scam websites using a combination of heuristic analysis and a blocklist of 2.5M+ known malicious domains from 38 sources.
+Detect phishing and scam URLs using heuristic analysis plus a blocklist of **2.5M+ known malicious domains** aggregated from **38 threat-intelligence feeds** (Taiwan 165, CERT.PL, PhishTank, OpenPhish, MetaMask, etc.). All domain matching runs locally — only the first letter of a domain is sent over the network to fetch the right shard.
 
-> **OpenClaw Skill**: `clawhub install anti-scam-guard`
+## Three ways to use it
+
+| | How | Best for |
+|---|---|---|
+| 🤖 **LINE Bot** | Add [`@163hfjhz`](https://line.me/R/ti/p/@163hfjhz) → paste suspicious links into the chat | Friends / parents / non-technical users — works on any phone, no install |
+| 🧩 **OpenClaw Skill** | `clawhub install anti-scam-guard` | Inside any OpenClaw-compatible agent (Claude, etc.) |
+| 🌐 **Browser Extension** | Load `manifest.json` as an unpacked extension (see [Installation](#installation)) | Chrome / Edge / Brave — automatic page-level warnings |
 
 ## Features
 
