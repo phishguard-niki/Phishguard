@@ -1,5 +1,13 @@
-// background.js (v0.4.4)
-const APP_VERSION = '0.4.4';
+// background.js (v0.5.0)
+const APP_VERSION = '0.5.0';
+
+// --- v0.5.0: shards fetched on-demand from GitHub blocklist-data repo ---
+// (Was bundled in data/blocklist-shards/, but 60MB+ exceeds Chrome Web Store
+// practical limits and would make daily blocklist refresh dependent on extension
+// re-publish.) Now mirrors the on-demand pattern from openclaw-skill/lib/check_url.py.
+const GITHUB_SHARDS_BASE = 'https://raw.githubusercontent.com/phishguard-niki/blocklist-data/main';
+const SHARD_TTL_MS = 60 * 60 * 1000;  // 1 hour fresh; stale-while-error fallback
+const SHARDS_CACHE_NAME = 'phishguard-shards-v1';
 
 // --- Fix #1: risky tokens split into always-flag vs suspicious-domain-only ---
 // Always flag — these almost exclusively appear in scam contexts
@@ -69,17 +77,50 @@ function hasRiskyPath(u, host){
 function isShortener(h){ return /(^|\.)((bit\.ly|t\.co|goo\.gl|tinyurl\.com|ow\.ly|is\.gd|cutt\.ly|rebrand\.ly))$/i.test(h||''); }
 async function getSettings(){ return new Promise(r=>chrome.storage.local.get({ asg_lang:null, asg_scanImages:true, asg_warnShortUrl:true, asg_showBanner:true, asg_interstitial:'C', asg_customBlocklist:[] }, r)); }
 
-// --- Fix #4: lazy shard loading (was loading entire 47MB JSON) ---
-// --- Fix #5: fix blocklist JSON parsing (object not array) ---
+// --- v0.5.0: per-shard lazy load, GitHub on-demand + Cache API L2 + stale fallback ---
+// Layer 1: in-memory Map (lives for the duration of the service worker)
+// Layer 2: Cache API (persists across SW restarts, no quota issue like chrome.storage)
+// Layer 3: stale-cache fallback if GitHub fetch fails (offline / rate-limited)
 let shardIndex = null;
 const shardCache = {};
+
+async function _fetchJsonCached(url, ttlMs){
+  const cache = await caches.open(SHARDS_CACHE_NAME);
+  const cached = await cache.match(url);
+  if(cached){
+    const cachedAt = parseInt(cached.headers.get('x-pg-cached-at') || '0', 10);
+    if(Date.now() - cachedAt < ttlMs){
+      return cached.json();
+    }
+  }
+  try{
+    const resp = await fetch(url, { cache: 'no-store' });
+    if(!resp.ok) throw new Error('HTTP ' + resp.status);
+    const text = await resp.text();
+    // Store with our own timestamp header so we can manage TTL ourselves
+    const cacheable = new Response(text, {
+      headers: {
+        'content-type': 'application/json',
+        'x-pg-cached-at': String(Date.now())
+      }
+    });
+    await cache.put(url, cacheable);
+    return JSON.parse(text);
+  }catch(e){
+    if(cached){
+      console.warn('[ASG] Fetch failed, falling back to stale cache for', url, e?.message);
+      return cached.json();
+    }
+    throw e;
+  }
+}
 
 async function loadShardIndex(){
   if(shardIndex) return shardIndex;
   try{
-    const resp = await fetch(chrome.runtime.getURL('data/blocklist-shards/index.json'));
-    shardIndex = await resp.json();
-  }catch{
+    shardIndex = await _fetchJsonCached(GITHUB_SHARDS_BASE + '/index.json', SHARD_TTL_MS);
+  }catch(e){
+    console.warn('[ASG] shard index unavailable:', e?.message);
     shardIndex = {};
   }
   return shardIndex;
@@ -91,11 +132,11 @@ async function loadShard(letter){
   const file = idx[letter];
   if(!file){ shardCache[letter] = new Set(); return shardCache[letter]; }
   try{
-    const resp = await fetch(chrome.runtime.getURL('data/blocklist-shards/' + file));
-    const obj = await resp.json();
+    const obj = await _fetchJsonCached(GITHUB_SHARDS_BASE + '/' + file, SHARD_TTL_MS);
     const domains = Array.isArray(obj.domains) ? obj.domains : (Array.isArray(obj) ? obj : []);
     shardCache[letter] = new Set(domains.map(s => String(s).toLowerCase()));
-  }catch{
+  }catch(e){
+    console.warn('[ASG] shard ' + letter + ' unavailable:', e?.message);
     shardCache[letter] = new Set();
   }
   return shardCache[letter];

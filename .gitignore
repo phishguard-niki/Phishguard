@@ -13,3 +13,6 @@ openclaw-skill/data/blocklist-shards/
 folder_list.txt
 SESSION_SUMMARY.md
 blocklist-data/
+
+# Chrome Web Store build artifacts
+dist/
