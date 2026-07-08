@@ -1,7 +1,7 @@
-# PhishGuard - Anti-Scam URL Checker v0.4.9
+# PhishGuard - Anti-Scam URL Checker
 
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/phishguard-scam-phishing-checker/odbipahjojmphhmjgicnafkhiikjandb)
 [![ClawHub](https://img.shields.io/badge/ClawHub-anti--scam--guard-red?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+)](https://clawhub.ai/phishguard-niki/anti-scam-guard)
-[![Install](https://img.shields.io/badge/Install-clawhub%20install%20anti--scam--guard-blue)](https://clawhub.ai/phishguard-niki/anti-scam-guard)
 [![LINE Bot](https://img.shields.io/badge/LINE-@163hfjhz-00C300?logo=line&logoColor=white)](https://line.me/R/ti/p/@163hfjhz)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Blocklist Update](https://github.com/phishguard-niki/blocklist-data/actions/workflows/update-blocklist.yml/badge.svg)](https://github.com/phishguard-niki/blocklist-data/actions)
@@ -12,9 +12,9 @@ Detect phishing and scam URLs using heuristic analysis plus a blocklist of **2.5
 
 | | How | Best for |
 |---|---|---|
+| 🌐 **Chrome Extension** | [**Install from Chrome Web Store**](https://chromewebstore.google.com/detail/phishguard-scam-phishing-checker/odbipahjojmphhmjgicnafkhiikjandb) — one click | Chrome / Edge / Brave users — automatic page-level warnings, auto-updates |
 | 🤖 **LINE Bot** | Add [`@163hfjhz`](https://line.me/R/ti/p/@163hfjhz) → paste suspicious links into the chat | Friends / parents / non-technical users — works on any phone, no install |
 | 🧩 **OpenClaw Skill** | `clawhub install anti-scam-guard` | Inside any OpenClaw-compatible agent (Claude, etc.) |
-| 🌐 **Browser Extension** | Load `manifest.json` as an unpacked extension (see [Installation](#installation)) | Chrome / Edge / Brave — automatic page-level warnings |
 
 ## Features
 
@@ -30,11 +30,15 @@ Detect phishing and scam URLs using heuristic analysis plus a blocklist of **2.5
 
 ## Installation
 
-### Chrome / Edge / Brave
-1. Go to `chrome://extensions`
-2. Enable **Developer mode**
-3. Click **Load unpacked**
-4. Select this folder (containing `manifest.json`)
+### Chrome / Edge / Brave (recommended)
+**[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/phishguard-scam-phishing-checker/odbipahjojmphhmjgicnafkhiikjandb)** — one click, auto-updates, no dev-mode required.
+
+### Load unpacked (for development)
+If you want to hack on the source or run a version ahead of the store release:
+1. Clone this repo
+2. Go to `chrome://extensions`
+3. Enable **Developer mode**
+4. Click **Load unpacked** and select this folder (containing `manifest.json`)
 
 ### Safari
 Safari Web Extension wrapper is planned but not yet available.
