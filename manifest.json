@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PhishGuard - Scam & Phishing Checker",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Detect scam & phishing URLs using a 2.5M-domain blocklist + heuristics. 偵測詐騙釣魚網址，整合 38 個全球威脅情資來源。",
   "icons": {
     "16": "assets/icon16.png",

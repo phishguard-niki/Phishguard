@@ -1,5 +1,5 @@
-// background.js (v0.5.0)
-const APP_VERSION = '0.5.0';
+// background.js (v0.5.1)
+const APP_VERSION = '0.5.1';
 
 // --- v0.5.0: shards fetched on-demand from GitHub blocklist-data repo ---
 // (Was bundled in data/blocklist-shards/, but 60MB+ exceeds Chrome Web Store
