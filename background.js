@@ -156,6 +156,8 @@ const _blocklistWhitelist = new Set([
   'amazon.com','github.com','linkedin.com','netflix.com',
   'yahoo.com','bing.com','wikipedia.org','line.me',
   'shopee.tw','pchome.com.tw','paypal.com',
+  // Meta properties (threads.com had a pre-Meta owner; some feeds still flag it)
+  'threads.com','threads.net','meta.com',
   // Taiwan financial / brokerage / news sites (often false-positive flagged)
   'moneydj.com','cnyes.com','histock.tw','wantgoo.com',
   'moneylink.com.tw','sinotrade.com.tw','esunsec.com.tw',
