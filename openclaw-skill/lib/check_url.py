@@ -30,6 +30,7 @@ WHITELIST = {
     "blockchain.com", "ledger.com", "trezor.io", "trust.com",
     "shopee.tw", "pchome.com.tw", "paypal.com", "bing.com",
     "threads.com", "threads.net", "meta.com",
+    "booking.com", "agoda.com", "airbnb.com", "trip.com",
     "gov.tw", "edu.tw", "com.tw", "org.tw",
     "npa.gov.tw", "moda.gov.tw", "ey.gov.tw",
     # Taiwan financial / brokerage / news sites (often false-positive flagged)

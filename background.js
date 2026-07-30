@@ -1,5 +1,5 @@
-// background.js (v0.5.1)
-const APP_VERSION = '0.5.1';
+// background.js (v0.5.2)
+const APP_VERSION = '0.5.2';
 
 // --- v0.5.0: shards fetched on-demand from GitHub blocklist-data repo ---
 // (Was bundled in data/blocklist-shards/, but 60MB+ exceeds Chrome Web Store
@@ -158,6 +158,8 @@ const _blocklistWhitelist = new Set([
   'shopee.tw','pchome.com.tw','paypal.com',
   // Meta properties (threads.com had a pre-Meta owner; some feeds still flag it)
   'threads.com','threads.net','meta.com',
+  // Major travel / booking sites (often flagged by legacy feeds; user hits these often)
+  'booking.com','agoda.com','airbnb.com','trip.com',
   // Taiwan financial / brokerage / news sites (often false-positive flagged)
   'moneydj.com','cnyes.com','histock.tw','wantgoo.com',
   'moneylink.com.tw','sinotrade.com.tw','esunsec.com.tw',
