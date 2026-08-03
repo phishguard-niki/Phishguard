@@ -160,6 +160,10 @@ const _blocklistWhitelist = new Set([
   'threads.com','threads.net','meta.com',
   // Major travel / booking sites (often flagged by legacy feeds; user hits these often)
   'booking.com','agoda.com','airbnb.com','trip.com',
+  // Major legit sites confirmed as FPs by scanning aggregated blocklist:
+  //   gmail.com (email), gitlab.com (git hosting), notion.so (productivity),
+  //   udn.com (TW news), alibaba.com (B2B), gate.io (crypto exchange, .io TLD gets over-flagged)
+  'gmail.com','gitlab.com','notion.so','udn.com','alibaba.com','gate.io',
   // Taiwan financial / brokerage / news sites (often false-positive flagged)
   'moneydj.com','cnyes.com','histock.tw','wantgoo.com',
   'moneylink.com.tw','sinotrade.com.tw','esunsec.com.tw',
