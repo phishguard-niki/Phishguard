@@ -86,6 +86,31 @@ node test_background.js
 
 48 test cases covering: search engine false positives, legitimate site whitelisting, suspicious TLD detection, homograph attacks, deep subdomains, URL shorteners, and blocklist matching.
 
+## FAQ
+
+### Why didn't PhishGuard warn me about a scam site that's clearly on Taiwan 165 / another public list?
+
+Two things could be happening:
+
+1. **Shard-cache lag (up to 1 hour).** To keep bandwidth low, the extension caches each blocklist "shard" for one hour after fetching. If a domain gets added to the upstream blocklist right after your local cache was populated, the extension won't see the new entry until the cache expires. Worst-case window: ~60 minutes. Typical: ~30 minutes.
+2. **Daily update delay.** The blocklist itself is refreshed once per day by a scheduled GitHub Actions job (nominally 22:00 UTC). If a scam domain was reported to a feed only hours ago, it may not yet be in the shard on GitHub either. GitHub occasionally delays free scheduled workflows by a few hours during high load — see the [Blocklist Update](https://github.com/phishguard-niki/blocklist-data/actions) badge for recent run history.
+
+**Force a fresh check right now** (in the service worker console):
+
+```js
+caches.delete('phishguard-shards-v1').then(() => location.reload())
+```
+
+This clears the local shard cache; the next page navigation will re-fetch the latest shard from GitHub.
+
+### Why did PhishGuard warn me about a legitimate site like `booking.com` / `gmail.com`?
+
+Some of the 38 upstream feeds carry stale or over-aggressive entries — a domain that was briefly abused years ago, or a whole TLD flagged en masse. The extension ships a small built-in whitelist for well-known false positives (`background.js` → `_blocklistWhitelist`). If you hit one that isn't there yet, please [open an issue](https://github.com/phishguard-niki/Phishguard/issues) with the domain and we'll add it.
+
+### Does the extension send my browsing history anywhere?
+
+No. Domain matching runs entirely on-device. The only network traffic PhishGuard generates is fetching blocklist "shard" files from GitHub — and the URL of each fetch only contains the **first letter** of the domain being looked up (to fetch e.g. `shard-a.json` for any `a…` domain). The remote server sees a filename, not a full URL, hostname, or referrer. See [PRIVACY.md](PRIVACY.md) for details.
+
 ## OpenClaw Skill
 
 PhishGuard is also available as an [OpenClaw](https://openclaw.com) skill for LINE chatbot integration:
