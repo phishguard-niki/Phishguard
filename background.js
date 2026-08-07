@@ -164,6 +164,10 @@ const _blocklistWhitelist = new Set([
   //   gmail.com (email), gitlab.com (git hosting), notion.so (productivity),
   //   udn.com (TW news), alibaba.com (B2B), gate.io (crypto exchange, .io TLD gets over-flagged)
   'gmail.com','gitlab.com','notion.so','udn.com','alibaba.com','gate.io',
+  // Second scan pass (2026-08-07, ~300 sites): godaddy (registrar), live.com
+  // (covers Microsoft onedrive/outlook subdomains), pinkoi (TW handmade e-commerce),
+  // cakeresume (TW recruiting platform)
+  'godaddy.com','live.com','pinkoi.com','cakeresume.com',
   // Taiwan financial / brokerage / news sites (often false-positive flagged)
   'moneydj.com','cnyes.com','histock.tw','wantgoo.com',
   'moneylink.com.tw','sinotrade.com.tw','esunsec.com.tw',
